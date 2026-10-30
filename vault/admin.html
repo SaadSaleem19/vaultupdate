@@ -1,0 +1,1522 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Dashboard — VAULT Control Center</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Archivo:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,700;1,900&family=Outfit:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&family=Syne:wght@700;800&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="style.css" />
+</head>
+
+<body class="admin-body">
+    <!-- ADMIN AUTHENTICATION OVERLAY -->
+    <div class="admin-login-overlay" id="admin-login-modal">
+        <div class="admin-login-card">
+            <div class="admin-brand">
+                <img src="images/vault_logo.png" alt="vault" class="admin-logo-img" />
+                <span>RESTRICTED ACCESS</span>
+            </div>
+            <div class="admin-security-badge">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                    <path d="M7 11V7a5 5 0 0110 0v4" />
+                </svg>
+                <span>Owner Portal</span>
+            </div>
+            <h2>Admin Authentication</h2>
+            <p>Enter your master security password to access inventory &amp; orders.</p>
+            <form id="admin-login-form">
+                <div class="admin-input-wrap">
+                    <input type="password" id="admin-pin-input" placeholder="Enter Admin Password" autocomplete="current-password" required autofocus />
+                    <button type="button" class="toggle-password-btn" id="btn-toggle-login-pass" aria-label="Toggle password visibility">
+                        <svg class="icon-eye" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                            <circle cx="12" cy="12" r="3" />
+                        </svg>
+                        <svg class="icon-eye-off" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none;">
+                            <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24" />
+                            <line x1="1" y1="1" x2="23" y2="23" />
+                        </svg>
+                    </button>
+                </div>
+                <button type="submit" class="btn-primary" id="btn-login-submit" style="width:100%; margin-top:0.5rem;">
+                    Unlock Dashboard
+                </button>
+            </form>
+            <div id="login-error-msg" class="login-err"></div>
+            <div class="login-security-notice">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                </svg>
+                <span>End-to-End Encrypted Session</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ADMIN LAYOUT -->
+    <div class="admin-wrapper" id="admin-main-view" style="display:none;">
+        <!-- SIDEBAR -->
+        <aside class="admin-sidebar">
+            <div class="sidebar-header">
+                <a href="index.html" class="nav-logo">
+                    <img src="images/vault_logo_white.png" alt="vault" class="admin-sidebar-logo" />
+                </a>
+                <span class="admin-badge-tag">ADMIN CONSOLE</span>
+            </div>
+
+            <nav class="admin-nav">
+                <button class="admin-nav-item active" data-tab="tab-dashboard">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="3" width="7" height="7" />
+                        <rect x="14" y="3" width="7" height="7" />
+                        <rect x="14" y="14" width="7" height="7" />
+                        <rect x="3" y="14" width="7" height="7" />
+                    </svg>
+                    <span>Dashboard</span>
+                </button>
+                <button class="admin-nav-item" data-tab="tab-products">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" />
+                        <line x1="3" y1="6" x2="21" y2="6" />
+                        <path d="M16 10a4 4 0 01-8 0" />
+                    </svg>
+                    <span>Manage Products</span>
+                </button>
+                <button class="admin-nav-item" data-tab="tab-orders">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" />
+                        <polyline points="14 2 14 8 20 8" />
+                        <line x1="16" y1="13" x2="8" y2="13" />
+                        <line x1="16" y1="17" x2="8" y2="17" />
+                        <polyline points="10 9 9 9 8 9" />
+                    </svg>
+                    <span>Customer Orders</span>
+                    <span class="orders-count-badge" id="nav-orders-count">0</span>
+                </button>
+                <button class="admin-nav-item" data-tab="tab-sync">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="7 10 12 15 17 10"></polyline>
+                        <line x1="12" y1="15" x2="12" y2="3"></line>
+                    </svg>
+                    <span>Netlify &amp; Cloud Sync</span>
+                </button>
+            </nav>
+
+            <div class="sidebar-footer">
+                <button type="button" id="btn-open-change-pass" class="sidebar-change-pass">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                        <path d="M7 11V7a5 5 0 0110 0v4" />
+                    </svg>
+                    <span>Change Password</span>
+                </button>
+                <a href="index.html" class="sidebar-link-store" target="_blank">
+                    <span>↗ View Live Store</span>
+                </a>
+                <button id="admin-logout-btn" class="sidebar-logout">Logout</button>
+            </div>
+        </aside>
+
+        <!-- CONTENT AREA -->
+        <main class="admin-content">
+            <!-- TOPBAR -->
+            <header class="admin-topbar">
+                <div style="display:flex; align-items:center; gap:1rem;">
+                    <h1 id="admin-page-title" style="margin:0;">Dashboard Overview</h1>
+                    <div id="topbar-cloud-pill" style="display:inline-flex; align-items:center; gap:0.45rem; font-size:0.75rem; font-weight:700; padding:0.4rem 0.85rem; border-radius:999px; background:rgba(26,26,24,0.06); cursor:pointer;" onclick="switchTab('tab-sync');" title="Click to view Live Cloud Sync settings">
+                        <span id="topbar-cloud-dot" style="width:8px; height:8px; border-radius:50%; background:#f59e0b; display:inline-block;"></span>
+                        <span id="topbar-cloud-status">Live Auto-Sync Setup</span>
+                    </div>
+                </div>
+                <div class="topbar-actions">
+                    <button class="btn-primary" id="btn-topbar-publish" style="background:#0F172A; border:1px solid #38BDF8; color:#38BDF8; font-size:0.82rem; padding:0.6rem 1rem; display:inline-flex; align-items:center; gap:0.45rem; cursor:pointer; font-weight:700;">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="7 10 12 15 17 10"></polyline>
+                            <line x1="12" y1="15" x2="12" y2="3"></line>
+                        </svg>
+                        <span>🚀 Publish for Netlify</span>
+                    </button>
+                    <button class="btn-secondary" id="btn-topbar-change-pass" style="font-size:0.82rem; padding:0.6rem 1rem; display:inline-flex; align-items:center; gap:0.4rem;">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                            <path d="M7 11V7a5 5 0 0110 0v4" />
+                        </svg>
+                        <span>Change Password</span>
+                    </button>
+                    <button class="btn-primary" id="btn-open-add-product">+ Add Thrifted Item</button>
+                </div>
+            </header>
+
+            <!-- TAB 1: DASHBOARD -->
+            <section class="admin-tab-pane active" id="tab-dashboard">
+                <div class="stats-cards-grid">
+                    <div class="admin-stat-card">
+                        <div class="stat-card-title">Total Store Revenue</div>
+                        <div class="stat-card-value" id="stat-total-revenue">PKR 0</div>
+                        <div class="stat-card-hint">From confirmed &amp; delivered orders</div>
+                    </div>
+                    <div class="admin-stat-card">
+                        <div class="stat-card-title">Total Orders Received</div>
+                        <div class="stat-card-value" id="stat-total-orders">0</div>
+                        <div class="stat-card-hint">All time orders via store checkout</div>
+                    </div>
+                    <div class="admin-stat-card">
+                        <div class="stat-card-title">Active Thrift Kicks</div>
+                        <div class="stat-card-value" id="stat-total-products">0</div>
+                        <div class="stat-card-hint">Listed in live vault archive</div>
+                    </div>
+                    <div class="admin-stat-card">
+                        <div class="stat-card-title">Pending COD Orders</div>
+                        <div class="stat-card-value highlight" id="stat-pending-orders">0</div>
+                        <div class="stat-card-hint">Requires WhatsApp/Call confirmation</div>
+                    </div>
+                </div>
+
+                <!-- Recent Orders Preview -->
+                <div class="admin-section-block">
+                    <div class="block-header">
+                        <h3>Recent Incoming Orders</h3>
+                        <button class="btn-ghost" onclick="switchTab('tab-orders')">View All Orders →</button>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="admin-table">
+                            <thead>
+                                <tr>
+                                    <th>Order ID</th>
+                                    <th>Date</th>
+                                    <th>Customer</th>
+                                    <th>City</th>
+                                    <th>Items</th>
+                                    <th>Amount</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="dashboard-recent-orders"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Store WhatsApp Configuration Block -->
+                <div class="admin-section-block">
+                    <div class="block-header">
+                        <div>
+                            <h3>Store WhatsApp Number Settings</h3>
+                            <p class="block-sub">Orders from website "Order on WhatsApp" and "Buy Now" will be sent to this number.</p>
+                        </div>
+                    </div>
+                    <div style="display:flex; gap:1rem; align-items:center; flex-wrap:wrap; margin-top:1.2rem;">
+                        <input type="text" id="admin-wa-number-input" placeholder="e.g. 923700120493 (with country code)" style="max-width:320px; padding:0.85rem 1.1rem; border:1px solid rgba(26,26,24,0.2); border-radius:6px; font-weight:700; font-family:var(--font-main);" />
+                        <button type="button" class="btn-primary" id="btn-save-wa-number">Save WhatsApp Number</button>
+                        <span id="wa-save-status" style="font-size:0.88rem; font-weight:700; color:#2e7d32;"></span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 2: PRODUCTS -->
+            <section class="admin-tab-pane" id="tab-products">
+                <div class="admin-section-block">
+                    <div class="block-header">
+                        <div>
+                            <h3>Active Thrift Inventory</h3>
+                            <p class="block-sub">Add, edit prices, update condition grades, or toggle items as sold out.</p>
+                        </div>
+                        <div style="display:flex; gap:0.6rem; align-items:center;">
+                            <button type="button" class="btn-ghost" id="btn-reset-default-inventory" style="font-size:0.8rem; padding:0.6rem 0.9rem; border:1px solid rgba(26,26,24,0.18);" title="Restore clean default 4 shoes if anything gets stuck">
+                                🔄 Reload 4 Clean Grails
+                            </button>
+                            <button type="button" class="btn-primary" id="btn-add-product-2">+ Add New Item</button>
+                        </div>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="admin-table">
+                            <thead>
+                                <tr>
+                                    <th>Preview</th>
+                                    <th>Name &amp; Brand</th>
+                                    <th>Category</th>
+                                    <th>Size</th>
+                                    <th>Condition</th>
+                                    <th>Price</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="admin-products-table"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 3: ORDERS -->
+            <section class="admin-tab-pane" id="tab-orders">
+                <div class="admin-section-block">
+                    <div class="block-header">
+                        <div>
+                            <h3>Customer Orders &amp; COD Dispatches</h3>
+                            <p class="block-sub">Verify addresses, contact buyers on WhatsApp, and update dispatch statuses.</p>
+                        </div>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="admin-table">
+                            <thead>
+                                <tr>
+                                    <th>Order #</th>
+                                    <th>Date</th>
+                                    <th>Customer Details</th>
+                                    <th>Items Ordered</th>
+                                    <th>Total &amp; Method</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="admin-orders-table"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 4: NETLIFY & CLOUD SYNC -->
+            <section class="admin-tab-pane" id="tab-sync">
+                <div class="admin-section-block">
+                    <div class="block-header">
+                        <div>
+                            <h3>🚀 Publish Items to Live Netlify Web</h3>
+                            <p class="block-sub">Apne add kiye huye sabhi shoes &amp; items ko Netlify par sabhi customers ke liye 100% live karein.</p>
+                        </div>
+                    </div>
+
+                    <!-- Method 1 Card -->
+                    <div style="background: rgba(37, 211, 102, 0.07); border: 1.5px solid rgba(37, 211, 102, 0.4); border-radius: 10px; padding: 1.5rem; margin-top: 1.25rem;">
+                        <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:0.5rem; margin-bottom: 0.75rem;">
+                            <h4 style="margin: 0; font-size:1.05rem; display:flex; align-items:center; gap:0.5rem; color:#1b5e20;">
+                                <span>⚡ Method 1: 1-Click Update File (Sabse Aasan &amp; 100% Free)</span>
+                            </h4>
+                            <span style="font-size:0.75rem; background:#1b5e20; color:#fff; padding:0.25rem 0.6rem; border-radius:999px; font-weight:700;">Recommended</span>
+                        </div>
+                        <p style="margin:0 0 1rem 0; font-size:0.9rem; line-height:1.6; color:#2e7d32;">
+                            Aapne admin panel mein jitne bhi items add ya edit kiye hain (jaise Nike SB, Jordan, photos wagera), wo is button se updated <strong>products.js</strong> file mein save ho jayenge.
+                        </p>
+                        <div style="background:#fff; border-radius:8px; padding:1rem; margin-bottom:1.2rem; border:1px solid rgba(37, 211, 102, 0.25);">
+                            <div style="font-size:0.85rem; font-weight:700; color:#1b5e20; margin-bottom:0.4rem;">Sirf yeh 2 steps karein:</div>
+                            <ol style="margin:0; padding-left:1.2rem; font-size:0.85rem; color:#333; line-height:1.6;">
+                                <li>Neeche <strong>"💾 Save Directly to Desktop/vault/products.js"</strong> dabayein aur Save kar dein (ya Download dabayein aur <code>Desktop/vault/</code> folder mein replace karein).</li>
+                                <li>Netlify dashboard khol kar apna <code>vault</code> folder drop ya redeploy kar dein — <strong>sabhi customers ko naye shoes foran live dikhenge!</strong></li>
+                            </ol>
+                        </div>
+                        <div style="display:flex; gap:0.8rem; flex-wrap:wrap;">
+                            <button type="button" class="btn-primary" id="btn-save-products-direct" style="background:#1b5e20; border-color:#1b5e20; display:inline-flex; align-items:center; gap:0.5rem; padding:0.85rem 1.4rem;">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/>
+                                    <polyline points="17 21 17 13 7 13 7 21"/>
+                                    <polyline points="7 3 7 8 15 8"/>
+                                </svg>
+                                <span>💾 Save Directly to Desktop/vault/products.js</span>
+                            </button>
+                            <button type="button" class="btn-secondary" id="btn-download-products-js" style="display:inline-flex; align-items:center; gap:0.5rem; padding:0.85rem 1.4rem;">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                    <polyline points="7 10 12 15 17 10"></polyline>
+                                    <line x1="12" y1="15" x2="12" y2="3"></line>
+                                </svg>
+                                <span>📥 Download products.js</span>
+                            </button>
+                        </div>
+                        <div id="publish-status-msg" style="margin-top:0.8rem; font-size:0.88rem; font-weight:700;"></div>
+                    </div>
+
+                    <!-- Method 2 Card -->
+                    <div style="background: #ffffff; border: 1.5px solid #0284c7; border-radius: 10px; padding: 1.5rem; margin-top: 1.5rem; box-shadow: 0 4px 15px rgba(2, 132, 199, 0.08);">
+                        <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:0.5rem; margin-bottom: 0.5rem;">
+                            <h4 style="margin: 0; font-size:1.05rem; display:flex; align-items:center; gap:0.5rem; color:#0369a1;">
+                                <span>🌐 Live Web Auto-Sync (Real-Time Cloud Database)</span>
+                            </h4>
+                            <span style="font-size:0.75rem; background:#0284c7; color:#fff; padding:0.25rem 0.6rem; border-radius:999px; font-weight:700;">★ Recommended for 100% Automatic Updates</span>
+                        </div>
+                        <p style="margin:0 0 1rem 0; font-size:0.9rem; line-height:1.6; color:#0f172a;">
+                            Yeh connect karne ke baad aap chahe apne mobile se item add karein ya laptop se — <strong>bina Netlify khole foran poori dunya ke sabhi customers ke phones par live show ho jayega!</strong>
+                        </p>
+
+                        <!-- Firebase 1-Minute Guide -->
+                        <div id="firebase-guide-box" style="background:#f0f9ff; border:1px solid #bae6fd; border-radius:8px; padding:1.1rem; margin-bottom:1.2rem; font-size:0.86rem; line-height:1.6; color:#0369a1;">
+                            <div style="font-weight:700; color:#0c4a6e; margin-bottom:0.4rem; font-size:0.9rem;">
+                                🔥 1-Minute Free Setup (Google Firebase):
+                            </div>
+                            <ol style="margin:0; padding-left:1.2rem; color:#0369a1;">
+                                <li><a href="https://console.firebase.google.com" target="_blank" rel="noopener noreferrer" style="color:#0284c7; font-weight:700; text-decoration:underline;">console.firebase.google.com</a> par jayein (free Google sign-in).</li>
+                                <li><strong>"Add project"</strong> dabayein (project name: <code>vault92</code>).</li>
+                                <li>Left sidebar mein <strong>"Build" → "Realtime Database"</strong> par click karein aur <strong>"Create Database"</strong> dabayein.</li>
+                                <li>Security Rules mein <strong>"Start in test mode"</strong> select karein aur <strong>"Enable"</strong> kar dein.</li>
+                                <li>Uper jo URL likha aayega (jaise <code>https://vault92-xyz-default-rtdb.firebaseio.com/</code>), usay copy kar ke neeche paste karein aur <strong>"Save &amp; Connect"</strong> dabayein!</li>
+                            </ol>
+                        </div>
+
+                        <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap:1rem;">
+                            <div>
+                                <label style="display:block; font-size:0.82rem; font-weight:700; margin-bottom:0.4rem;">Cloud Provider</label>
+                                <select id="cloud-sync-type" style="width:100%; padding:0.75rem; border:1px solid rgba(26,26,24,0.2); border-radius:6px; font-weight:600; font-family:var(--font-main);">
+                                    <option value="firebase" selected>Google Firebase Realtime Database (Free &amp; Real-time)</option>
+                                    <option value="jsonbin">JSONBin.io</option>
+                                    <option value="custom">Custom REST API</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label style="display:block; font-size:0.82rem; font-weight:700; margin-bottom:0.4rem;">Database URL</label>
+                                <input type="text" id="cloud-sync-endpoint" placeholder="e.g. https://vault92-default-rtdb.firebaseio.com" style="width:100%; padding:0.75rem; border:1px solid rgba(26,26,24,0.2); border-radius:6px; font-family:var(--font-main);" />
+                            </div>
+                            <div>
+                                <label style="display:block; font-size:0.82rem; font-weight:700; margin-bottom:0.4rem;">API Key (Only for JSONBin)</label>
+                                <input type="password" id="cloud-sync-key" placeholder="Leave empty for Firebase" style="width:100%; padding:0.75rem; border:1px solid rgba(26,26,24,0.2); border-radius:6px; font-family:var(--font-main);" />
+                            </div>
+                        </div>
+                        <div style="display:flex; gap:0.8rem; margin-top:1.2rem; align-items:center; flex-wrap:wrap;">
+                            <button type="button" class="btn-primary" id="btn-save-cloud-config" style="background:#0284c7; border-color:#0284c7;">
+                                ⚡ Save &amp; Connect Live Cloud
+                            </button>
+                            <button type="button" class="btn-secondary" id="btn-sync-cloud-now">
+                                Sync Current Products to Cloud Now
+                            </button>
+                            <button type="button" class="btn-ghost" id="btn-clear-cloud-config" style="color:#dc2626; border:1px solid rgba(220,38,38,0.3); font-size:0.85rem; padding:0.6rem 1rem;">
+                                ✕ Disconnect / Reset Cloud
+                            </button>
+                            <span id="cloud-status-badge" style="font-size:0.85rem; font-weight:700;"></span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- PRODUCT ADD / EDIT MODAL -->
+    <div class="admin-modal-overlay" id="product-modal">
+        <div class="admin-modal-card">
+            <div class="modal-header">
+                <h3 id="modal-form-title">Add New Thrift Item</h3>
+                <button class="modal-close-btn" id="btn-close-product-modal">✕</button>
+            </div>
+            <form id="product-form">
+                <input type="hidden" id="form-product-id" />
+
+                <div class="form-grid">
+                    <div class="form-group full-width">
+                        <label for="form-p-name">Item Name *</label>
+                        <input type="text" id="form-p-name" placeholder="e.g. Nike Dunk High 'Panda' Retro" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="form-p-brand">Brand *</label>
+                        <input type="text" id="form-p-brand" placeholder="e.g. Nike, Jordan, New Balance, Vintage Stussy" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="form-p-category">Category *</label>
+                        <select id="form-p-category">
+                            <option value="Footwear">Footwear / Shoes</option>
+                            <option value="Apparel">Apparel / Vintage Clothing</option>
+                            <option value="Accessories">Accessories</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="form-p-size">Exact Single Size *</label>
+                        <input type="text" id="form-p-size" placeholder="e.g. US 9.5 (EU 43) or L (Oversized)" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="form-p-condition">Condition Rating *</label>
+                        <input type="text" id="form-p-condition" placeholder="e.g. 9.5/10 Near Mint" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="form-p-price">Selling Price (PKR) *</label>
+                        <input type="number" id="form-p-price" placeholder="13999" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="form-p-orig-price">Original Retail Price (PKR)</label>
+                        <input type="number" id="form-p-orig-price" placeholder="48000" />
+                    </div>
+
+                    <div class="form-group full-width">
+                        <div class="photos-header-row">
+                            <label>Product Photos (Upload 1 or Multiple Angles) *</label>
+                            <span class="photos-count-badge" id="photos-count-badge">0 Photos</span>
+                        </div>
+                        
+                        <!-- Upload Dropzone (Supports Multiple File Selection) -->
+                        <div class="upload-dropzone" id="upload-dropzone">
+                            <input type="file" id="form-p-file" accept="image/*" class="upload-file-input" multiple />
+                            <div class="upload-dropzone-content">
+                                <div class="upload-icon-circle">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                                        <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                                        <polyline points="21 15 16 10 5 21"></polyline>
+                                    </svg>
+                                </div>
+                                <div class="upload-text-main">
+                                    <strong>Tap to choose photos</strong> or drag &amp; drop here
+                                </div>
+                                <div class="upload-text-sub">
+                                    Select multiple photos (Front, side, soles, box, tags). Auto-optimized.
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Multi-Photo Gallery Preview Grid -->
+                        <div class="multi-photos-container" id="multi-photos-container" style="display:none;">
+                            <div class="multi-photos-toolbar">
+                                <span class="toolbar-hint">★ First photo is the Main Cover shown in store</span>
+                                <div class="toolbar-actions">
+                                    <button type="button" class="btn-add-more-photos" id="btn-add-more-photos">
+                                        + Add More Photos
+                                    </button>
+                                    <button type="button" class="btn-clear-all-photos" id="btn-clear-all-photos">
+                                        Clear All
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="multi-photos-grid" id="multi-photos-grid">
+                                <!-- Dynamically populated photo tiles -->
+                            </div>
+                        </div>
+
+                        <!-- Hidden input holding primary cover image -->
+                        <input type="hidden" id="form-p-image" value="" required />
+
+                        <!-- Secondary options: Paste link or select presets -->
+                        <div class="image-alt-section">
+                            <button type="button" class="btn-toggle-alt-url" id="btn-toggle-url-mode">
+                                <span>⇄ Or add photo by URL link / Preset</span>
+                            </button>
+                            <div class="alt-url-drawer" id="alt-url-drawer" style="display:none;">
+                                <div class="alt-url-input-wrap">
+                                    <input type="text" id="form-p-url-manual" placeholder="https://example.com/shoe.jpg or images/shoe_1.png" />
+                                    <button type="button" class="btn-apply-url" id="btn-apply-url">+ Add Photo Link</button>
+                                </div>
+                                <div class="preset-thumbs-row">
+                                    <span class="preset-label">Add Presets:</span>
+                                    <button type="button" class="preset-pill" data-src="images/shoe_1.png">+ Panda Dunk</button>
+                                    <button type="button" class="preset-pill" data-src="images/shoe_2.png">+ Phantom White</button>
+                                    <button type="button" class="preset-pill" data-src="images/shoe_3.png">+ Travis Scott</button>
+                                    <button type="button" class="preset-pill" data-src="images/collection_shoes.png">+ Triple Arch</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label for="form-p-desc">Thrift Description &amp; History</label>
+                        <textarea id="form-p-desc" rows="3" placeholder="Condition details, where it was sourced, material qualities..."></textarea>
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="form-p-instock" checked />
+                            <span>In Stock (Available for Purchase)</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn-ghost" id="btn-cancel-modal">Cancel</button>
+                    <button type="submit" class="btn-primary">Save Product</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- CHANGE PASSWORD MODAL -->
+    <div class="admin-modal-overlay" id="change-pass-modal">
+        <div class="admin-modal-card" style="max-width: 440px;">
+            <div class="modal-header">
+                <h3>Admin Password &amp; Access</h3>
+                <button type="button" class="btn-modal-close" id="btn-close-pass-modal">✕</button>
+            </div>
+            <p style="font-size:0.85rem; color:var(--gray-400); margin-bottom:1.5rem; line-height: 1.5;">
+                Update your security password here. If you want to give access to someone else, you can change or share this password anytime.
+            </p>
+            <form id="change-pass-form">
+                <div class="form-group full-width">
+                    <label for="current-pass-input">Current Password *</label>
+                    <input type="password" id="current-pass-input" placeholder="Enter current password" required />
+                </div>
+                <div class="form-group full-width">
+                    <label for="new-pass-input">New Password *</label>
+                    <input type="password" id="new-pass-input" placeholder="Enter new password (min. 6 characters)" required />
+                </div>
+                <div class="form-group full-width">
+                    <label for="confirm-pass-input">Confirm New Password *</label>
+                    <input type="password" id="confirm-pass-input" placeholder="Repeat new password" required />
+                </div>
+                <div id="change-pass-error" class="login-err" style="margin-bottom:1rem;"></div>
+                <div class="modal-footer" style="padding:0; border:none; margin-top:1.5rem;">
+                    <button type="button" class="btn-ghost" id="btn-cancel-pass-modal">Cancel</button>
+                    <button type="submit" class="btn-primary">Save New Password</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- NETLIFY PUBLISH MODAL -->
+    <div class="admin-modal-overlay" id="publish-modal">
+        <div class="admin-modal-card" style="max-width: 540px;">
+            <div class="modal-header">
+                <div style="display:flex; align-items:center; gap:0.5rem;">
+                    <span style="font-size:1.3rem;">🚀</span>
+                    <h3 style="margin:0;">Publish to Live Netlify Web</h3>
+                </div>
+                <button type="button" class="btn-modal-close" id="btn-close-publish-modal">✕</button>
+            </div>
+            <div style="padding: 1.25rem 0 0.5rem 0;">
+                <p style="font-size:0.9rem; line-height:1.6; color:var(--gray-400); margin-bottom:1.25rem;">
+                    Aapne jitne bhi shoes, prices aur multi-photos add kiye hain wo sabhi customers ko live dikhane ke liye yeh updated <strong>products.js</strong> file use karein:
+                </p>
+
+                <div style="background: rgba(37, 211, 102, 0.08); border: 1.5px solid rgba(37, 211, 102, 0.4); border-radius: 8px; padding: 1.1rem; margin-bottom: 1.25rem;">
+                    <div style="font-weight: 700; color: #1b5e20; font-size: 0.92rem; margin-bottom: 0.5rem;">
+                        ⚡ Step 1: File Update Karein
+                    </div>
+                    <p style="font-size: 0.85rem; color: #2e7d32; line-height: 1.5; margin-bottom: 1rem;">
+                        Chrome par <strong>"Direct Save"</strong> dabane se aapke <code>Desktop/vault/products.js</code> par foran write ho jayega:
+                    </p>
+                    <div style="display:flex; gap:0.6rem; flex-wrap:wrap;">
+                        <button type="button" class="btn-primary" id="modal-save-products-direct" style="background:#1b5e20; border-color:#1b5e20; font-size:0.85rem; padding:0.75rem 1.1rem;">
+                            💾 Save Directly to Desktop/vault/products.js
+                        </button>
+                        <button type="button" class="btn-secondary" id="modal-download-products-js" style="font-size:0.85rem; padding:0.75rem 1.1rem;">
+                            📥 Download products.js
+                        </button>
+                    </div>
+                    <div id="modal-publish-status" style="margin-top:0.6rem; font-size:0.85rem; font-weight:700;"></div>
+                </div>
+
+                <div style="background: rgba(26,26,24,0.04); border-radius: 8px; padding: 1.1rem; border: 1px solid rgba(26,26,24,0.1);">
+                    <div style="font-weight: 700; font-size: 0.92rem; margin-bottom: 0.5rem;">
+                        🌐 Step 2: Netlify Par Redeploy Karein
+                    </div>
+                    <p style="font-size: 0.85rem; color: rgba(26,26,24,0.75); line-height: 1.6; margin: 0;">
+                        Netlify Dashboard khol kar apna <code>vault</code> folder upload / drop kar dein. Saare naye shoes poori duniya ke customers ke liye live ho jayenge!
+                    </p>
+                </div>
+            </div>
+            <div class="modal-footer" style="padding: 1rem 0 0 0; border-top: 1px solid rgba(26,26,24,0.1); margin-top: 1rem; display:flex; justify-content:space-between; align-items:center;">
+                <button type="button" class="btn-ghost" id="modal-link-to-sync-tab" style="font-size:0.85rem;">
+                    ⚙ Open Cloud Sync Settings →
+                </button>
+                <button type="button" class="btn-secondary" id="btn-close-publish-modal-2">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast"></div>
+
+    <script src="products.js?v=3.1"></script>
+    <script src="script.js?v=3.1"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const loginModal = document.getElementById('admin-login-modal');
+            const mainView = document.getElementById('admin-main-view');
+            const loginForm = document.getElementById('admin-login-form');
+            const pinInput = document.getElementById('admin-pin-input');
+            const errEl = document.getElementById('login-error-msg');
+            const logoutBtn = document.getElementById('admin-logout-btn');
+
+            // MASTER PASSWORD & STORAGE (Default: S&Athrifter)
+            const DEFAULT_ADMIN_PASS = 'S&Athrifter';
+            function getAdminPassword() {
+                return localStorage.getItem('vault_admin_password') || DEFAULT_ADMIN_PASS;
+            }
+
+            // Rate limiting / brute-force protection
+            let failedAttempts = parseInt(sessionStorage.getItem('vault_failed_attempts') || '0', 10);
+            let lockoutUntil = parseInt(sessionStorage.getItem('vault_lockout_until') || '0', 10);
+
+            function checkLockout() {
+                const now = Date.now();
+                if (lockoutUntil && now < lockoutUntil) {
+                    const remaining = Math.ceil((lockoutUntil - now) / 1000);
+                    errEl.innerHTML = `⚠️ Too many failed attempts. Locked for <strong>${remaining}s</strong>.`;
+                    errEl.classList.add('show');
+                    if (pinInput) pinInput.disabled = true;
+                    const btn = document.getElementById('btn-login-submit');
+                    if (btn) btn.disabled = true;
+                    setTimeout(checkLockout, 1000);
+                    return true;
+                } else if (lockoutUntil && now >= lockoutUntil) {
+                    lockoutUntil = 0;
+                    failedAttempts = 0;
+                    sessionStorage.removeItem('vault_lockout_until');
+                    sessionStorage.removeItem('vault_failed_attempts');
+                    errEl.classList.remove('show');
+                    errEl.textContent = '';
+                    if (pinInput) pinInput.disabled = false;
+                    const btn = document.getElementById('btn-login-submit');
+                    if (btn) btn.disabled = false;
+                    return false;
+                }
+                return false;
+            }
+
+            // Authentication Check on page load
+            if (sessionStorage.getItem('vault_admin_auth') === 'true') {
+                loginModal.style.display = 'none';
+                mainView.style.display = 'flex';
+                initDashboard();
+            } else {
+                loginModal.style.display = 'flex';
+                mainView.style.display = 'none';
+                checkLockout();
+            }
+
+            // Password Show/Hide Toggle
+            const toggleLoginPassBtn = document.getElementById('btn-toggle-login-pass');
+            if (toggleLoginPassBtn && pinInput) {
+                toggleLoginPassBtn.addEventListener('click', () => {
+                    const isPass = pinInput.type === 'password';
+                    pinInput.type = isPass ? 'text' : 'password';
+                    const iconEye = toggleLoginPassBtn.querySelector('.icon-eye');
+                    const iconEyeOff = toggleLoginPassBtn.querySelector('.icon-eye-off');
+                    if (iconEye && iconEyeOff) {
+                        iconEye.style.display = isPass ? 'none' : 'block';
+                        iconEyeOff.style.display = isPass ? 'block' : 'none';
+                    }
+                });
+            }
+
+            // Login submission
+            loginForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                if (checkLockout()) return;
+
+                const enteredPass = pinInput.value.trim();
+                const actualPass = getAdminPassword();
+
+                if (enteredPass === actualPass) {
+                    // Success
+                    failedAttempts = 0;
+                    sessionStorage.removeItem('vault_failed_attempts');
+                    sessionStorage.removeItem('vault_lockout_until');
+                    sessionStorage.setItem('vault_admin_auth', 'true');
+                    errEl.classList.remove('show');
+                    errEl.textContent = '';
+                    loginModal.style.display = 'none';
+                    mainView.style.display = 'flex';
+                    initDashboard();
+                    showToast('Access Granted. Welcome to VAULT Admin Portal!');
+                } else {
+                    // Failure
+                    failedAttempts++;
+                    sessionStorage.setItem('vault_failed_attempts', failedAttempts.toString());
+                    pinInput.value = '';
+                    if (failedAttempts >= 5) {
+                        lockoutUntil = Date.now() + 30000;
+                        sessionStorage.setItem('vault_lockout_until', lockoutUntil.toString());
+                        checkLockout();
+                    } else {
+                        const remaining = 5 - failedAttempts;
+                        errEl.innerHTML = `Access Denied: Incorrect Password. (${remaining} attempt${remaining === 1 ? '' : 's'} remaining)`;
+                        errEl.classList.add('show');
+                    }
+                }
+            });
+
+            // Logout
+            logoutBtn.addEventListener('click', () => {
+                sessionStorage.removeItem('vault_admin_auth');
+                window.location.reload();
+            });
+
+            // Change Password Modal Handlers
+            const changePassModal = document.getElementById('change-pass-modal');
+            const btnOpenChangePass = document.getElementById('btn-open-change-pass');
+            const btnTopbarChangePass = document.getElementById('btn-topbar-change-pass');
+            const btnClosePassModal = document.getElementById('btn-close-pass-modal');
+            const btnCancelPassModal = document.getElementById('btn-cancel-pass-modal');
+            const changePassForm = document.getElementById('change-pass-form');
+            const currentPassInput = document.getElementById('current-pass-input');
+            const newPassInput = document.getElementById('new-pass-input');
+            const confirmPassInput = document.getElementById('confirm-pass-input');
+            const changePassErr = document.getElementById('change-pass-error');
+
+            function openChangePassModal() {
+                if (!changePassModal) return;
+                changePassForm.reset();
+                if (changePassErr) {
+                    changePassErr.classList.remove('show');
+                    changePassErr.textContent = '';
+                }
+                changePassModal.classList.add('show');
+            }
+
+            function closeChangePassModal() {
+                if (!changePassModal) return;
+                changePassModal.classList.remove('show');
+            }
+
+            if (btnOpenChangePass) btnOpenChangePass.addEventListener('click', openChangePassModal);
+            if (btnTopbarChangePass) btnTopbarChangePass.addEventListener('click', openChangePassModal);
+            if (btnClosePassModal) btnClosePassModal.addEventListener('click', closeChangePassModal);
+            if (btnCancelPassModal) btnCancelPassModal.addEventListener('click', closeChangePassModal);
+
+            if (changePassForm) {
+                changePassForm.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    const currentEntered = currentPassInput.value.trim();
+                    const newPass = newPassInput.value.trim();
+                    const confirmPass = confirmPassInput.value.trim();
+                    const actualPass = getAdminPassword();
+
+                    if (currentEntered !== actualPass) {
+                        changePassErr.textContent = 'Current password does not match.';
+                        changePassErr.classList.add('show');
+                        currentPassInput.focus();
+                        return;
+                    }
+
+                    if (newPass.length < 6) {
+                        changePassErr.textContent = 'New password must be at least 6 characters long.';
+                        changePassErr.classList.add('show');
+                        newPassInput.focus();
+                        return;
+                    }
+
+                    if (newPass !== confirmPass) {
+                        changePassErr.textContent = 'New password and confirmation do not match.';
+                        changePassErr.classList.add('show');
+                        confirmPassInput.focus();
+                        return;
+                    }
+
+                    // Save new password
+                    localStorage.setItem('vault_admin_password', newPass);
+                    closeChangePassModal();
+                    showToast('Admin password updated successfully! Keep it safe.');
+                });
+            }
+
+            // Tab Switching
+            const navItems = document.querySelectorAll('.admin-nav-item');
+            const tabPanes = document.querySelectorAll('.admin-tab-pane');
+            const pageTitleEl = document.getElementById('admin-page-title');
+
+            window.switchTab = function(tabId) {
+                navItems.forEach(item => item.classList.toggle('active', item.dataset.tab === tabId));
+                tabPanes.forEach(pane => pane.classList.toggle('active', pane.id === tabId));
+                if (tabId === 'tab-dashboard') pageTitleEl.textContent = 'Dashboard Overview';
+                if (tabId === 'tab-products') pageTitleEl.textContent = 'Product & Inventory Management';
+                if (tabId === 'tab-orders') pageTitleEl.textContent = 'Customer Orders & Dispatches';
+                if (tabId === 'tab-sync') pageTitleEl.textContent = 'Netlify Live Publish & Cloud Sync';
+            };
+
+            navItems.forEach(item => {
+                item.addEventListener('click', () => switchTab(item.dataset.tab));
+            });
+
+            // Init Dashboard Data
+            function initDashboard() {
+                renderDashboardMetrics();
+                renderProductsTable();
+                renderOrdersTable();
+            }
+
+            function renderDashboardMetrics() {
+                const products = window.vaultDB.getProducts();
+                const orders = window.vaultDB.getOrders();
+
+                const totalRev = orders.filter(o => o.status !== 'Cancelled').reduce((sum, o) => sum + (o.total || 0), 0);
+                const pendingCount = orders.filter(o => o.status === 'Pending').length;
+
+                document.getElementById('stat-total-revenue').textContent = 'PKR ' + totalRev.toLocaleString('en-PK');
+                document.getElementById('stat-total-orders').textContent = orders.length;
+                document.getElementById('stat-total-products').textContent = products.length;
+                document.getElementById('stat-pending-orders').textContent = pendingCount;
+                document.getElementById('nav-orders-count').textContent = pendingCount > 0 ? pendingCount : orders.length;
+
+                // Recent orders table on dashboard
+                const recentOrdersEl = document.getElementById('dashboard-recent-orders');
+                if (orders.length === 0) {
+                    recentOrdersEl.innerHTML = `<tr><td colspan="7" style="text-align:center; padding:2rem;">No orders yet.</td></tr>`;
+                } else {
+                    recentOrdersEl.innerHTML = orders.slice(0, 5).map(o => `
+                        <tr>
+                            <td><strong>#${o.id}</strong></td>
+                            <td>${o.date}</td>
+                            <td>${o.customer.name}<br/><small style="color:var(--gray-300);">${o.customer.phone}</small></td>
+                            <td>${o.customer.city}</td>
+                            <td>${o.items.map(i => i.name).join(', ')}</td>
+                            <td><strong>PKR ${o.total.toLocaleString('en-PK')}</strong></td>
+                            <td><span class="status-badge status-${o.status.toLowerCase()}">${o.status}</span></td>
+                        </tr>
+                    `).join('');
+                }
+            }
+
+            // Products Table
+            function renderProductsTable() {
+                const products = window.vaultDB.getProducts();
+                const tbody = document.getElementById('admin-products-table');
+
+                if (products.length === 0) {
+                    tbody.innerHTML = `<tr><td colspan="8" style="text-align:center; padding:2rem;">No products found. Click "+ Add New Item" above!</td></tr>`;
+                    return;
+                }
+
+                tbody.innerHTML = products.map(p => `
+                    <tr>
+                        <td>
+                            <img src="${p.image}" alt="${p.name}" class="table-thumb" onerror="this.src='images/shoe_1.png'" />
+                        </td>
+                        <td>
+                            <strong>${p.name}</strong><br/>
+                            <small style="color:var(--gray-300);">${p.brand}</small>
+                        </td>
+                        <td>${p.category || 'Footwear'}</td>
+                        <td><span class="spec-pill size-pill">${p.size}</span></td>
+                        <td><span class="spec-pill condition-pill">${p.condition}</span></td>
+                        <td>
+                            <strong>PKR ${p.price.toLocaleString('en-PK')}</strong>
+                            ${p.originalPrice ? `<br/><small style="text-decoration:line-through; color:var(--gray-300);">PKR ${p.originalPrice.toLocaleString('en-PK')}</small>` : ''}
+                        </td>
+                        <td>
+                            <span class="status-badge ${p.inStock ? 'status-delivered' : 'status-cancelled'}">
+                                ${p.inStock ? 'In Stock' : 'Sold Out'}
+                            </span>
+                        </td>
+                        <td>
+                            <div class="action-btn-group">
+                                <button class="btn-sm btn-edit" onclick="editProduct('${p.id}')">Edit</button>
+                                <button class="btn-sm btn-delete" onclick="deleteProduct('${p.id}')">Delete</button>
+                                <a href="product.html?id=${p.id}" target="_blank" class="btn-sm btn-view">View</a>
+                            </div>
+                        </td>
+                    </tr>
+                `).join('');
+            }
+
+            // Orders Table
+            function renderOrdersTable() {
+                const orders = window.vaultDB.getOrders();
+                const tbody = document.getElementById('admin-orders-table');
+
+                if (orders.length === 0) {
+                    tbody.innerHTML = `<tr><td colspan="7" style="text-align:center; padding:2rem;">No customer orders yet.</td></tr>`;
+                    return;
+                }
+
+                tbody.innerHTML = orders.map(o => {
+                    const waMsg = encodeURIComponent(`Assalam-o-Alaikum ${o.customer.name}! This is VAULT Archive regarding your Order #${o.id}. We have received your order for ${o.items.map(i => i.name).join(', ')} (Total: PKR ${o.total.toLocaleString('en-PK')}). Please reply to confirm delivery dispatch.`);
+                    const waLink = `https://wa.me/${o.customer.phone.replace(/[^0-9]/g, '')}?text=${waMsg}`;
+
+                    return `
+                        <tr>
+                            <td><strong>#${o.id}</strong></td>
+                            <td>${o.date}</td>
+                            <td>
+                                <strong>${o.customer.name}</strong><br/>
+                                <a href="tel:${o.customer.phone}" style="color:inherit; text-decoration:none;">📞 ${o.customer.phone}</a><br/>
+                                <small style="color:var(--gray-300);">${o.customer.address}, ${o.customer.city}</small>
+                            </td>
+                            <td>
+                                ${o.items.map(i => `<div>• ${i.name} <small>(${i.size || '1-of-1'})</small></div>`).join('')}
+                            </td>
+                            <td>
+                                <strong>PKR ${o.total.toLocaleString('en-PK')}</strong><br/>
+                                <small style="color:var(--gray-300);">${o.paymentMethod}</small>
+                            </td>
+                            <td>
+                                <select class="status-select" onchange="changeOrderStatus('${o.id}', this.value)">
+                                    <option value="Pending" ${o.status === 'Pending' ? 'selected' : ''}>Pending</option>
+                                    <option value="Confirmed" ${o.status === 'Confirmed' ? 'selected' : ''}>Confirmed</option>
+                                    <option value="Shipped" ${o.status === 'Shipped' ? 'selected' : ''}>Shipped</option>
+                                    <option value="Delivered" ${o.status === 'Delivered' ? 'selected' : ''}>Delivered</option>
+                                    <option value="Cancelled" ${o.status === 'Cancelled' ? 'selected' : ''}>Cancelled</option>
+                                </select>
+                            </td>
+                            <td>
+                                <a href="${waLink}" target="_blank" class="btn-sm btn-whatsapp">
+                                    WhatsApp
+                                </a>
+                            </td>
+                        </tr>
+                    `;
+                }).join('');
+            }
+
+            // Order Status Change handler
+            window.changeOrderStatus = function(orderId, newStatus) {
+                window.vaultDB.updateOrderStatus(orderId, newStatus);
+                renderDashboardMetrics();
+                window.showGlobalToast(`Order #${orderId} marked as ${newStatus}`);
+            };
+
+            // Modal logic for Add / Edit product
+            const productModal = document.getElementById('product-modal');
+            const openAddBtn1 = document.getElementById('btn-open-add-product');
+            const openAddBtn2 = document.getElementById('btn-add-product-2');
+            const closeBtn = document.getElementById('btn-close-product-modal');
+            const cancelBtn = document.getElementById('btn-cancel-modal');
+            const productForm = document.getElementById('product-form');
+            const modalTitle = document.getElementById('modal-form-title');
+
+            // Image Upload & Multi-Photo Elements
+            let currentProductImages = [];
+
+            const dropzone = document.getElementById('upload-dropzone');
+            const fileInput = document.getElementById('form-p-file');
+            const multiPhotosContainer = document.getElementById('multi-photos-container');
+            const multiPhotosGrid = document.getElementById('multi-photos-grid');
+            const photosCountBadge = document.getElementById('photos-count-badge');
+            const hiddenImgInput = document.getElementById('form-p-image');
+            const btnAddMorePhotos = document.getElementById('btn-add-more-photos');
+            const btnClearAllPhotos = document.getElementById('btn-clear-all-photos');
+            const btnToggleUrlMode = document.getElementById('btn-toggle-url-mode');
+            const altUrlDrawer = document.getElementById('alt-url-drawer');
+            const manualUrlInput = document.getElementById('form-p-url-manual');
+            const btnApplyUrl = document.getElementById('btn-apply-url');
+
+            // High-performance Canvas client-side compressor
+            function compressImageFile(file, maxWidth = 800, maxHeight = 800, quality = 0.72) {
+                return new Promise((resolve, reject) => {
+                    const reader = new FileReader();
+                    reader.readAsDataURL(file);
+                    reader.onload = (e) => {
+                        const img = new Image();
+                        img.src = e.target.result;
+                        img.onload = () => {
+                            let width = img.width;
+                            let height = img.height;
+
+                            if (width > maxWidth || height > maxHeight) {
+                                if (width > height) {
+                                    height = Math.round((height * maxWidth) / width);
+                                    width = maxWidth;
+                                } else {
+                                    width = Math.round((width * maxHeight) / height);
+                                    height = maxHeight;
+                                }
+                            }
+
+                            const canvas = document.createElement('canvas');
+                            canvas.width = width;
+                            canvas.height = height;
+                            const ctx = canvas.getContext('2d');
+                            ctx.drawImage(img, 0, 0, width, height);
+                            const dataUrl = canvas.toDataURL('image/jpeg', quality);
+                            resolve(dataUrl);
+                        };
+                        img.onerror = (err) => reject(err);
+                    };
+                    reader.onerror = (err) => reject(err);
+                });
+            }
+
+            function renderPhotosGallery() {
+                if (!currentProductImages || currentProductImages.length === 0) {
+                    multiPhotosContainer.style.display = 'none';
+                    dropzone.style.display = 'flex';
+                    photosCountBadge.textContent = '0 Photos';
+                    hiddenImgInput.value = '';
+                    return;
+                }
+
+                multiPhotosContainer.style.display = 'block';
+                dropzone.style.display = 'none';
+                photosCountBadge.textContent = `${currentProductImages.length} Photo${currentProductImages.length > 1 ? 's' : ''}`;
+                hiddenImgInput.value = currentProductImages[0];
+
+                multiPhotosGrid.innerHTML = currentProductImages.map((imgSrc, idx) => `
+                    <div class="photo-tile ${idx === 0 ? 'is-cover' : ''}" data-index="${idx}">
+                        <img src="${imgSrc}" alt="Product Photo ${idx + 1}" />
+                        <span class="tile-index-badge">${idx + 1}</span>
+                        ${idx === 0 ? '<span class="tile-cover-badge">★ Cover</span>' : `<button type="button" class="btn-set-cover" onclick="setCoverPhoto(${idx})" title="Set as Main Cover Photo">Make Cover</button>`}
+                        <button type="button" class="btn-remove-photo" onclick="removePhotoAt(${idx})" title="Delete this photo">✕</button>
+                    </div>
+                `).join('');
+            }
+
+            window.setCoverPhoto = function(idx) {
+                if (idx < 0 || idx >= currentProductImages.length) return;
+                const chosen = currentProductImages.splice(idx, 1)[0];
+                currentProductImages.unshift(chosen);
+                renderPhotosGallery();
+                window.showGlobalToast('Cover photo updated! ★');
+            };
+
+            window.removePhotoAt = function(idx) {
+                if (idx < 0 || idx >= currentProductImages.length) return;
+                currentProductImages.splice(idx, 1);
+                renderPhotosGallery();
+            };
+
+            function addImageToList(src) {
+                if (!src) return;
+                currentProductImages.push(src);
+                renderPhotosGallery();
+            }
+
+            // File selection (multiple files support)
+            fileInput.addEventListener('change', async (e) => {
+                const files = e.target.files;
+                if (!files || files.length === 0) return;
+
+                photosCountBadge.textContent = 'Optimizing...';
+                let addedCount = 0;
+                for (let i = 0; i < files.length; i++) {
+                    const file = files[i];
+                    if (!file.type.startsWith('image/')) continue;
+                    try {
+                        const compressed = await compressImageFile(file);
+                        currentProductImages.push(compressed);
+                        addedCount++;
+                    } catch (err) {
+                        console.error('Failed to compress file:', file.name, err);
+                    }
+                }
+
+                fileInput.value = '';
+                renderPhotosGallery();
+                if (addedCount > 0) {
+                    window.showGlobalToast(`${addedCount} photo${addedCount > 1 ? 's' : ''} added & optimized! 📸`);
+                }
+            });
+
+            // Drag and drop events
+            ['dragenter', 'dragover'].forEach(evtName => {
+                dropzone.addEventListener(evtName, (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    dropzone.classList.add('dragover');
+                });
+            });
+
+            ['dragleave', 'drop'].forEach(evtName => {
+                dropzone.addEventListener(evtName, (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    dropzone.classList.remove('dragover');
+                });
+            });
+
+            dropzone.addEventListener('drop', async (e) => {
+                const dt = e.dataTransfer;
+                const files = dt && dt.files;
+                if (!files || files.length === 0) return;
+
+                let addedCount = 0;
+                for (let i = 0; i < files.length; i++) {
+                    const file = files[i];
+                    if (!file.type.startsWith('image/')) continue;
+                    try {
+                        const compressed = await compressImageFile(file);
+                        currentProductImages.push(compressed);
+                        addedCount++;
+                    } catch (err) {
+                        console.error('Drop error:', err);
+                    }
+                }
+
+                renderPhotosGallery();
+                if (addedCount > 0) {
+                    window.showGlobalToast(`${addedCount} photo${addedCount > 1 ? 's' : ''} added! 📸`);
+                }
+            });
+
+            // Add more photos & Clear all
+            btnAddMorePhotos.addEventListener('click', () => {
+                fileInput.click();
+            });
+
+            btnClearAllPhotos.addEventListener('click', () => {
+                if (confirm('Clear all uploaded photos for this item?')) {
+                    currentProductImages = [];
+                    renderPhotosGallery();
+                }
+            });
+
+            // Toggle alternative URL/Preset drawer
+            if (btnToggleUrlMode && altUrlDrawer) {
+                btnToggleUrlMode.addEventListener('click', () => {
+                    const isHidden = altUrlDrawer.style.display === 'none';
+                    altUrlDrawer.style.display = isHidden ? 'flex' : 'none';
+                });
+            }
+
+            // Apply manual URL link
+            if (btnApplyUrl && manualUrlInput) {
+                btnApplyUrl.addEventListener('click', () => {
+                    const val = manualUrlInput.value.trim();
+                    if (!val) {
+                        alert('Please enter a valid image URL or path.');
+                        return;
+                    }
+                    addImageToList(val);
+                    manualUrlInput.value = '';
+                    altUrlDrawer.style.display = 'none';
+                    window.showGlobalToast('Image added from link! 🔗');
+                });
+            }
+
+            // Quick preset pills
+            document.querySelectorAll('.preset-pill').forEach(pill => {
+                pill.addEventListener('click', () => {
+                    const src = pill.dataset.src;
+                    const name = pill.textContent.trim();
+                    addImageToList(src);
+                    if (altUrlDrawer) altUrlDrawer.style.display = 'none';
+                    window.showGlobalToast(`Added preset "${name}"`);
+                });
+            });
+
+            function openAddModal() {
+                productForm.reset();
+                document.getElementById('form-product-id').value = '';
+                document.getElementById('form-p-instock').checked = true;
+                currentProductImages = [];
+                renderPhotosGallery();
+                modalTitle.textContent = 'Add New Thrifted Item';
+                productModal.classList.add('show');
+            }
+
+            openAddBtn1.addEventListener('click', openAddModal);
+            if (openAddBtn2) openAddBtn2.addEventListener('click', openAddModal);
+
+            const btnResetDefaultInventory = document.getElementById('btn-reset-default-inventory');
+            if (btnResetDefaultInventory) {
+                btnResetDefaultInventory.addEventListener('click', () => {
+                    if (confirm('Kya aap 4 clean default shoes (Panda, Phantom, New Balance, Nike SB) fresh reload karna chahte hain?')) {
+                        if (window.vaultDB && typeof window.vaultDB.resetToInitialProducts === 'function') {
+                            window.vaultDB.resetToInitialProducts();
+                            renderProductsTable();
+                            renderDashboardMetrics();
+                            window.showGlobalToast('✓ Clean default 4 shoes reloaded!');
+                        }
+                    }
+                });
+            }
+
+            function closeModal() {
+                productModal.classList.remove('show');
+            }
+            closeBtn.addEventListener('click', closeModal);
+            cancelBtn.addEventListener('click', closeModal);
+
+            // Edit product
+            window.editProduct = function(id) {
+                const product = window.vaultDB.getProductById(id);
+                if (!product) return;
+
+                document.getElementById('form-product-id').value = product.id;
+                document.getElementById('form-p-name').value = product.name;
+                document.getElementById('form-p-brand').value = product.brand;
+                document.getElementById('form-p-category').value = product.category || 'Footwear';
+                document.getElementById('form-p-size').value = product.size;
+                document.getElementById('form-p-condition').value = product.condition;
+                document.getElementById('form-p-price').value = product.price;
+                document.getElementById('form-p-orig-price').value = product.originalPrice || '';
+                document.getElementById('form-p-desc').value = product.description || '';
+                document.getElementById('form-p-instock').checked = product.inStock !== false;
+
+                // Load existing photos into multi-photo gallery
+                if (product.images && Array.isArray(product.images) && product.images.length > 0) {
+                    currentProductImages = [...product.images];
+                } else if (product.image) {
+                    currentProductImages = [product.image];
+                } else {
+                    currentProductImages = [];
+                }
+                renderPhotosGallery();
+
+                modalTitle.textContent = `Edit "${product.name}"`;
+                productModal.classList.add('show');
+            };
+
+            // Delete product
+            window.deleteProduct = function(id) {
+                if (confirm('Are you sure you want to remove this grail from your store?')) {
+                    window.vaultDB.deleteProduct(id);
+                    renderProductsTable();
+                    renderDashboardMetrics();
+                    window.showGlobalToast('Item removed successfully');
+                    const curCloud = window.vaultDB.getCloudConfig();
+                    if (!curCloud || !curCloud.endpoint) {
+                        setTimeout(() => openPublishModal(), 400);
+                    }
+                }
+            };
+
+            // Submit product form
+            productForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const idVal = document.getElementById('form-product-id').value;
+                const name = document.getElementById('form-p-name').value.trim();
+                const brand = document.getElementById('form-p-brand').value.trim();
+                const category = document.getElementById('form-p-category').value;
+                const size = document.getElementById('form-p-size').value.trim();
+                const condition = document.getElementById('form-p-condition').value.trim();
+                const price = parseInt(document.getElementById('form-p-price').value);
+                const origPriceVal = document.getElementById('form-p-orig-price').value;
+                const originalPrice = origPriceVal ? parseInt(origPriceVal) : null;
+                const description = document.getElementById('form-p-desc').value.trim();
+                const inStock = document.getElementById('form-p-instock').checked;
+
+                if (!currentProductImages || currentProductImages.length === 0) {
+                    alert('Please upload at least one photo for this product.');
+                    dropzone.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    dropzone.classList.add('dragover');
+                    setTimeout(() => dropzone.classList.remove('dragover'), 1200);
+                    return;
+                }
+
+                const image = currentProductImages[0];
+                const images = currentProductImages;
+
+                const payload = {
+                    name,
+                    brand,
+                    category,
+                    size,
+                    condition,
+                    price,
+                    originalPrice,
+                    image,
+                    images,
+                    description,
+                    badge: '1-of-1 Grail',
+                    tag: 'Authentic Brand',
+                    inStock
+                };
+
+                if (idVal) {
+                    payload.id = idVal;
+                }
+
+                window.vaultDB.saveProduct(payload);
+                closeModal();
+                renderProductsTable();
+                renderDashboardMetrics();
+                window.showGlobalToast(`Item "${name}" saved!`);
+
+                const curCloud = window.vaultDB.getCloudConfig();
+                if (!curCloud || !curCloud.endpoint) {
+                    setTimeout(() => openPublishModal(), 400);
+                }
+            });
+
+            // Store WhatsApp Number Configuration
+            const waInput = document.getElementById('admin-wa-number-input');
+            const waSaveBtn = document.getElementById('btn-save-wa-number');
+            const waStatus = document.getElementById('wa-save-status');
+
+            if (waInput && window.vaultDB) {
+                waInput.value = window.vaultDB.getWhatsAppNumber();
+            }
+
+            if (waSaveBtn && waInput) {
+                waSaveBtn.addEventListener('click', () => {
+                    const cleaned = window.vaultDB.setWhatsAppNumber(waInput.value);
+                    waInput.value = cleaned;
+                    waStatus.textContent = '✓ Saved! Live orders will now reach: +' + cleaned;
+                    setTimeout(() => { waStatus.textContent = ''; }, 4000);
+                });
+            }
+
+            // Netlify Publish & Direct File Save Handlers
+            const publishModal = document.getElementById('publish-modal');
+            const btnTopbarPublish = document.getElementById('btn-topbar-publish');
+            const btnClosePublishModal = document.getElementById('btn-close-publish-modal');
+            const btnClosePublishModal2 = document.getElementById('btn-close-publish-modal-2');
+            const modalLinkToSyncTab = document.getElementById('modal-link-to-sync-tab');
+
+            function openPublishModal() {
+                if (publishModal) publishModal.classList.add('show');
+            }
+
+            function closePublishModal() {
+                if (publishModal) publishModal.classList.remove('show');
+            }
+
+            if (btnTopbarPublish) btnTopbarPublish.addEventListener('click', openPublishModal);
+            if (btnClosePublishModal) btnClosePublishModal.addEventListener('click', closePublishModal);
+            if (btnClosePublishModal2) btnClosePublishModal2.addEventListener('click', closePublishModal);
+            if (modalLinkToSyncTab) {
+                modalLinkToSyncTab.addEventListener('click', () => {
+                    closePublishModal();
+                    switchTab('tab-sync');
+                });
+            }
+
+            function triggerDownloadProductsJS() {
+                if (!window.vaultDB) return;
+                const content = window.vaultDB.exportProductsJS();
+                const blob = new Blob([content], { type: 'application/javascript;charset=utf-8' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'products.js';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                window.showGlobalToast('✓ products.js downloaded! Replace in Desktop/vault & deploy to Netlify.');
+                const mStatus = document.getElementById('modal-publish-status');
+                const tStatus = document.getElementById('publish-status-msg');
+                const msg = '<span style="color:#1b5e20;">✓ products.js downloaded! Apne Desktop/vault folder mein replace karein.</span>';
+                if (mStatus) mStatus.innerHTML = msg;
+                if (tStatus) tStatus.innerHTML = msg;
+            }
+
+            async function triggerSaveProductsDirect() {
+                if (!window.vaultDB) return;
+                const content = window.vaultDB.exportProductsJS();
+                if ('showSaveFilePicker' in window) {
+                    try {
+                        const handle = await window.showSaveFilePicker({
+                            suggestedName: 'products.js',
+                            types: [{
+                                description: 'JavaScript File',
+                                accept: { 'text/javascript': ['.js'] }
+                            }]
+                        });
+                        const writable = await handle.createWritable();
+                        await writable.write(content);
+                        await writable.close();
+                        window.showGlobalToast('✓ products.js saved directly! Now deploy folder to Netlify.');
+                        const mStatus = document.getElementById('modal-publish-status');
+                        const tStatus = document.getElementById('publish-status-msg');
+                        const msg = '<span style="color:#1b5e20;">✓ products.js directly saved! Apne vault folder ko Netlify par deploy karein.</span>';
+                        if (mStatus) mStatus.innerHTML = msg;
+                        if (tStatus) tStatus.innerHTML = msg;
+                        return;
+                    } catch (e) {
+                        if (e.name === 'AbortError') return;
+                        console.warn('File picker cancelled or unsupported, fallback to download:', e);
+                    }
+                }
+                triggerDownloadProductsJS();
+            }
+
+            const btnSaveDirect1 = document.getElementById('btn-save-products-direct');
+            const btnDownload1 = document.getElementById('btn-download-products-js');
+            const btnSaveDirect2 = document.getElementById('modal-save-products-direct');
+            const btnDownload2 = document.getElementById('modal-download-products-js');
+
+            if (btnSaveDirect1) btnSaveDirect1.addEventListener('click', triggerSaveProductsDirect);
+            if (btnDownload1) btnDownload1.addEventListener('click', triggerDownloadProductsJS);
+            if (btnSaveDirect2) btnSaveDirect2.addEventListener('click', triggerSaveProductsDirect);
+            if (btnDownload2) btnDownload2.addEventListener('click', triggerDownloadProductsJS);
+
+            // Cloud Sync Configuration UI
+            const cloudSyncType = document.getElementById('cloud-sync-type');
+            const cloudSyncEndpoint = document.getElementById('cloud-sync-endpoint');
+            const cloudSyncKey = document.getElementById('cloud-sync-key');
+            const btnSaveCloudConfig = document.getElementById('btn-save-cloud-config');
+            const btnSyncCloudNow = document.getElementById('btn-sync-cloud-now');
+            const cloudStatusBadge = document.getElementById('cloud-status-badge');
+
+            function updateCloudPillUI(isConnected, msg) {
+                const topbarPill = document.getElementById('topbar-cloud-pill');
+                const topbarDot = document.getElementById('topbar-cloud-dot');
+                const topbarStatus = document.getElementById('topbar-cloud-status');
+                if (topbarDot && topbarStatus) {
+                    if (isConnected) {
+                        topbarDot.style.background = '#16a34a';
+                        topbarStatus.textContent = msg || 'Live Auto-Sync Active';
+                        if (topbarPill) topbarPill.style.background = 'rgba(22, 163, 74, 0.12)';
+                    } else {
+                        topbarDot.style.background = '#f59e0b';
+                        topbarStatus.textContent = msg || 'Live Auto-Sync Setup';
+                        if (topbarPill) topbarPill.style.background = 'rgba(26, 26, 24, 0.06)';
+                    }
+                }
+            }
+
+            if (window.vaultDB && cloudSyncEndpoint) {
+                const currentCloud = window.vaultDB.getCloudConfig();
+                if (currentCloud && currentCloud.endpoint) {
+                    if (cloudSyncType) cloudSyncType.value = currentCloud.type || 'firebase';
+                    if (cloudSyncEndpoint) cloudSyncEndpoint.value = currentCloud.endpoint || '';
+                    if (cloudSyncKey) cloudSyncKey.value = currentCloud.apiKey || '';
+                    if (cloudStatusBadge) cloudStatusBadge.innerHTML = '<span style="color:#1b5e20;">● Cloud Connected &amp; Ready</span>';
+                    updateCloudPillUI(true, 'Live Auto-Sync Active');
+                } else {
+                    if (cloudStatusBadge) cloudStatusBadge.innerHTML = '<span style="color:rgba(26,26,24,0.5);">● Local Storage Only (No Cloud Connected)</span>';
+                    updateCloudPillUI(false, 'Live Auto-Sync Setup');
+                }
+            }
+
+            if (btnSaveCloudConfig && cloudSyncEndpoint) {
+                btnSaveCloudConfig.addEventListener('click', () => {
+                    let endpoint = cloudSyncEndpoint.value.trim();
+                    const type = cloudSyncType ? cloudSyncType.value : 'firebase';
+                    const apiKey = cloudSyncKey ? cloudSyncKey.value.trim() : '';
+
+                    if (!endpoint) {
+                        window.vaultDB.setCloudConfig(null);
+                        cloudStatusBadge.innerHTML = '<span style="color:rgba(26,26,24,0.5);">● Cloud Sync Disabled (Local Only)</span>';
+                        updateCloudPillUI(false, 'Live Auto-Sync Setup');
+                        window.showGlobalToast('Cloud sync cleared.');
+                        return;
+                    }
+
+                    // Auto-normalize Firebase URL
+                    if (type === 'firebase') {
+                        endpoint = endpoint.replace(/\/+$/, '');
+                    }
+
+                    window.vaultDB.setCloudConfig({ type, endpoint, apiKey });
+                    cloudStatusBadge.innerHTML = '<span style="color:#0284c7;">✓ Testing &amp; syncing products...</span>';
+                    window.vaultDB.syncToCloud().then(res => {
+                        if (res && res.synced) {
+                            cloudStatusBadge.innerHTML = '<span style="color:#1b5e20;">✓ CONNECTED! Sabhi visitors ko har update foran live dikhega.</span>';
+                            updateCloudPillUI(true, 'Live Auto-Sync Active');
+                            window.showGlobalToast('Cloud connected! All items synced live.');
+                        } else {
+                            cloudStatusBadge.innerHTML = '<span style="color:#c62828;">⚠ Could not connect: ' + (res.error || 'Check URL/Rules') + '</span>';
+                            updateCloudPillUI(false, 'Sync Error');
+                        }
+                    });
+                });
+            }
+
+            if (btnSyncCloudNow) {
+                btnSyncCloudNow.addEventListener('click', () => {
+                    cloudStatusBadge.innerHTML = '<span>Syncing products to cloud...</span>';
+                    window.vaultDB.syncToCloud().then(res => {
+                        if (res && res.synced) {
+                            cloudStatusBadge.innerHTML = '<span style="color:#1b5e20;">✓ Successfully pushed to cloud live!</span>';
+                            updateCloudPillUI(true, 'Live Auto-Sync Active');
+                            window.showGlobalToast('Products synced to cloud live!');
+                        } else {
+                            cloudStatusBadge.innerHTML = '<span style="color:#c62828;">⚠ Sync failed: ' + (res.error || 'Check cloud connection') + '</span>';
+                        }
+                    });
+                });
+            }
+
+            const btnClearCloud = document.getElementById('btn-clear-cloud-config');
+            if (btnClearCloud) {
+                btnClearCloud.addEventListener('click', () => {
+                    window.vaultDB.setCloudConfig(null);
+                    if (cloudSyncEndpoint) cloudSyncEndpoint.value = '';
+                    if (cloudSyncKey) cloudSyncKey.value = '';
+                    if (cloudStatusBadge) cloudStatusBadge.innerHTML = '<span style="color:rgba(26,26,24,0.5);">● Cloud Sync Cleared (Local Mode Active)</span>';
+                    updateCloudPillUI(false, 'Live Auto-Sync Setup');
+                    window.showGlobalToast('Cloud configuration cleared.');
+                });
+            }
+        });
+    </script>
+</body>
+
+</html>
+

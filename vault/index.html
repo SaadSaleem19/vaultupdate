@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description"
+        content="VAULT — Curated thrifted sneakers from iconic global brands. 100% authentic, deep-cleaned, 1-of-1 archive drops in Pakistan." />
+    <title>VAULT — Curated Thrift & Archive Footwear Pakistan</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Archivo:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,700;1,900&family=Outfit:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&family=Syne:wght@700;800&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="style.css?v=3.1" />
+</head>
+
+<body>
+
+    <!-- Cursor -->
+    <div class="cursor" id="cursor"></div>
+    <div class="cursor-follower" id="cursor-follower"></div>
+
+    <div class="loader" id="loader">
+        <div class="loader-logo">
+            <img src="images/vault_logo.png" alt="vault" class="loader-logo-img" />
+        </div>
+        <div class="loader-bar">
+            <div class="loader-fill" id="loader-fill"></div>
+        </div>
+    </div>
+
+    <!-- Navbar -->
+    <nav class="navbar" id="navbar">
+        <a href="#home" class="nav-logo" aria-label="vault">
+            <img src="images/vault_logo.png" alt="vault" class="nav-logo-img" />
+        </a>
+        <ul class="nav-links">
+            <li><a href="#home" id="nav-home">Home</a></li>
+            <li><a href="#collection" id="nav-collection">Curation</a></li>
+            <li><a href="#products" id="nav-products">Shop Kicks</a></li>
+            <li><a href="#apparel" id="nav-apparel">Apparel <span class="nav-pill-soon">Soon</span></a></li>
+            <li><a href="#why-us" id="nav-why">Why Vault</a></li>
+            <li><a href="#about" id="nav-about">Our Story</a></li>
+        </ul>
+        <div class="nav-actions">
+            <button class="nav-cart" id="cart-btn" aria-label="Cart">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                    <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" />
+                    <line x1="3" y1="6" x2="21" y2="6" />
+                    <path d="M16 10a4 4 0 01-8 0" />
+                </svg>
+                <span class="cart-count" id="cart-count">0</span>
+            </button>
+            <button class="hamburger" id="hamburger" aria-label="Menu">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu Overlay & Drawer -->
+    <div class="menu-overlay" id="menu-overlay"></div>
+    <div class="mobile-menu" id="mobile-menu">
+        <div class="mobile-menu-header">
+            <a href="#home" class="mobile-menu-logo-link" aria-label="vault">
+                <img src="images/vault_logo.png" alt="vault" class="mobile-menu-logo" />
+            </a>
+            <button class="mobile-menu-close" id="mobile-menu-close" aria-label="Close menu">✕</button>
+        </div>
+        <div class="mobile-menu-body">
+            <span class="mobile-menu-label">Navigation</span>
+            <ul class="mobile-nav-list">
+                <li><a href="#home" class="mobile-link"><span>Home</span></a></li>
+                <li><a href="#collection" class="mobile-link"><span>Curation</span></a></li>
+                <li><a href="#products" class="mobile-link"><span>Shop Kicks</span></a></li>
+                <li><a href="#apparel" class="mobile-link"><span>Upcoming Apparel</span><span
+                            class="nav-pill-soon">Soon</span></a></li>
+                <li><a href="#why-us" class="mobile-link"><span>Why Vault</span></a></li>
+                <li><a href="#about" class="mobile-link"><span>Our Story</span></a></li>
+            </ul>
+        </div>
+        <div class="mobile-menu-footer">
+            <a href="https://wa.me/923700120493" target="_blank" rel="noopener noreferrer" class="mobile-menu-wa-btn">
+                <img src="images/whatsapp.svg" width="18" height="18" alt="WhatsApp" />
+                <span>Order on WhatsApp</span>
+            </a>
+            <div class="mobile-menu-socials">
+                <a href="https://www.instagram.com/vault92_?exln=aHdwZXp4M21xdnBr" target="_blank"
+                    rel="noopener noreferrer" class="mobile-social-link">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                        <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                        <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                    </svg>
+                    <span>Instagram</span>
+                </a>
+                <a href="https://www.tiktok.com/@vault92_?_r=1&_t=ZS-9AwJBgUYPn3" target="_blank"
+                    rel="noopener noreferrer" class="mobile-social-link">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+                        <path
+                            d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64c.29 0 .58.04.85.12V9.4a6.33 6.33 0 0 0-1-.08A6.34 6.34 0 0 0 3 15.66a6.34 6.34 0 0 0 10.82 4.47 6.27 6.27 0 0 0 1.86-4.46V8.71a8.21 8.21 0 0 0 4.91 1.63v-3.65z" />
+                    </svg>
+                    <span>TikTok</span>
+                </a>
+                <a href="https://www.facebook.com/share/1DsvDWXAj4/?mibextid=wwXIfr" target="_blank"
+                    rel="noopener noreferrer" class="mobile-social-link">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+                        <path
+                            d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+                    </svg>
+                    <span>Facebook</span>
+                </a>
+            </div>
+            <div class="mobile-menu-badge">100% Curated Thrift Kicks</div>
+        </div>
+    </div>
+
+    <!-- Cart Sidebar -->
+    <div class="cart-overlay" id="cart-overlay"></div>
+    <div class="cart-sidebar" id="cart-sidebar">
+        <div class="cart-header">
+            <h3>Your Cart</h3>
+            <button class="cart-close" id="cart-close">✕</button>
+        </div>
+        <div class="cart-items" id="cart-items">
+            <div class="cart-empty">
+                <div class="cart-empty-icon">🛒</div>
+                <p>Your vault is empty</p>
+                <span>Add some kicks first</span>
+            </div>
+        </div>
+        <div class="cart-footer" id="cart-footer" style="display:none">
+            <div class="cart-total">
+                <span>Total</span>
+                <span id="cart-total-price">PKR 0</span>
+            </div>
+            <button class="btn-checkout btn-whatsapp-checkout" id="cart-checkout-wa-btn">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" clip-rule="evenodd"
+                        d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2zm.01 1.67c4.56 0 8.25 3.69 8.25 8.24 0 4.56-3.69 8.25-8.25 8.25-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.19 8.19 0 0 1-1.26-4.39c0-4.55 3.69-8.24 8.25-8.24zm4.52 11.75c-.25-.12-1.47-.72-1.7-.8-.23-.08-.39-.12-.56.12-.17.25-.66.8-.81.97-.15.17-.3.19-.55.07-.25-.12-1.05-.39-2-1.23-.74-.66-1.23-1.47-1.38-1.72-.15-.25-.02-.38.11-.5.11-.11.25-.3.37-.45.12-.15.17-.25.25-.42.08-.17.04-.32-.02-.45-.07-.12-.56-1.36-.77-1.86-.2-.49-.41-.42-.56-.43h-.48c-.17 0-.44.06-.67.31-.23.25-.88.86-.88 2.1 0 1.24.9 2.45 1.03 2.62.13.17 1.78 2.72 4.31 3.81.6.26 1.07.42 1.44.54.6.19 1.15.16 1.58.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.15-1.18-.06-.11-.23-.17-.48-.3z"
+                        fill="#ffffff" />
+                </svg>
+                <span>Order on WhatsApp (COD)</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- HERO -->
+    <section class="hero" id="home">
+        <div class="hero-bg-text" aria-hidden="true">
+            <img src="images/vault_logo.png" alt="vault" class="hero-bg-logo-img" />
+        </div>
+        <div class="hero-content">
+            <div class="hero-tag reveal-left">— Curated Drop 01 // 100% Authentic Brands</div>
+            <h1 class="hero-title reveal-up">
+                Step Into<br /><span class="hero-accent">the vault.</span>
+            </h1>
+            <p class="hero-sub reveal-up delay-1">Handpicked original brand kicks from legendary global archives. 100%
+                authentic, deep-cleaned, and curated in Pakistan. 1-of-1 grails only.</p>
+            <div class="hero-cta reveal-up delay-2">
+                <a href="#products" class="btn-primary" id="hero-shop-btn">Shop Current Drop</a>
+                <a href="#collection" class="btn-ghost" id="hero-explore-btn">Our Curation</a>
+            </div>
+        </div>
+        <div class="hero-image reveal-right">
+            <div class="hero-img-glow"></div>
+            <img src="images/hero_shoe.jpg" alt="Vault Curated Sneaker" />
+        </div>
+        <div class="hero-scroll-hint">
+            <div class="scroll-line"></div>
+            <span>Scroll</span>
+        </div>
+    </section>
+
+    <!-- MARQUEE -->
+    <div class="marquee-section">
+        <div class="marquee-track">
+            <span>VAULT ARCHIVE &nbsp;●&nbsp; 100% ORIGINAL BRANDS &nbsp;●&nbsp; CURATED THRIFT KICKS &nbsp;●&nbsp;
+                1-OF-1 PIECES ONLY &nbsp;●&nbsp; DEEP CLEANED &amp; SANITIZED &nbsp;●&nbsp; VINTAGE APPAREL DROPPING
+                SOON &nbsp;●&nbsp; NO REPLICAS EVER &nbsp;●&nbsp; CASH ON DELIVERY PAKISTAN &nbsp;●&nbsp; VAULT ARCHIVE
+                &nbsp;●&nbsp; 100% ORIGINAL BRANDS &nbsp;●&nbsp; CURATED THRIFT KICKS &nbsp;●&nbsp; 1-OF-1 PIECES ONLY
+                &nbsp;●&nbsp;</span>
+        </div>
+    </div>
+
+    <!-- COLLECTION SECTION -->
+    <section class="collection-section" id="collection">
+        <div class="section-label scroll-reveal">The Archive Curation</div>
+        <div class="collection-grid">
+            <div class="collection-main scroll-reveal">
+                <img src="images/collection_shoes.jpg" alt="Vault Curated Thrift Collection" />
+                <div class="collection-badge">1-OF-1 GRAILS</div>
+            </div>
+            <div class="collection-right">
+                <div class="collection-text scroll-reveal delay-1">
+                    <h2>Handpicked Gems.<br /><em>Zero Replicas.</em><br />1-of-1 Silhouettes.</h2>
+                    <p>We scour global thrift bins, archive lots, and private collections to find genuine sneakers from
+                        the world's most iconic brands. Every single pair in the Vault is authenticated, sanitized, and
+                        graded with complete transparency.</p>
+                    <p>Because these are thrifted original pieces, every drop is 1-of-1 in its size. When a silhouette
+                        in your size drops, there's no restock. Move fast.</p>
+                    <a href="#products" class="btn-primary mt" id="collection-shop-btn">Explore Drop 01</a>
+                </div>
+                <div class="collection-stats scroll-reveal delay-2">
+                    <div class="stat">
+                        <span class="stat-num" data-target="100">0</span>
+                        <span class="stat-label">% Authentic Brands</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-num" data-target="1">0</span>
+                        <span class="stat-label">of 1 Unique Sizing</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-num" data-target="4">0</span>
+                        <span class="stat-label">Step Deep Clean Wash</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PRODUCTS SECTION -->
+    <section class="products-section" id="products">
+        <div class="section-label scroll-reveal">Current Drop 01</div>
+        <h2 class="section-title scroll-reveal">Thrifted Grails. Pick Your Pair.</h2>
+        <div class="products-grid">
+
+            <div class="product-card scroll-reveal" data-id="1" data-name="Nike Dunk High 'Panda' Retro"
+                data-price="13999">
+                <div class="product-img-wrap">
+                    <span class="product-badge-thrift">1-of-1 Grail</span>
+                    <img src="images/shoe_1.png" alt="Nike Dunk High Panda Retro Thrifted" />
+                    <div class="product-overlay">
+                        <button class="btn-addcart" data-id="1" data-name="Nike Dunk High 'Panda' Retro"
+                            data-price="13999">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="product-info">
+                    <div class="product-top">
+                        <h3 class="product-name">Nike Dunk High "Panda" Retro</h3>
+                        <span class="product-tag">Authentic Brand</span>
+                    </div>
+                    <div class="product-spec-row">
+                        <span class="spec-pill size-pill">US 9.5 (EU 43)</span>
+                        <span class="spec-pill condition-pill">9.5/10 Near Mint</span>
+                    </div>
+                    <div class="product-bottom">
+                        <div class="price-wrap">
+                            <span class="product-price">PKR 13,999</span>
+                            <span class="product-orig-price">Retail PKR 48,000+</span>
+                        </div>
+                        <span class="stock-status">● Only 1 In Stock</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-card scroll-reveal delay-1" data-id="2" data-name="Nike Dunk Low 'Phantom White'"
+                data-price="12499">
+                <div class="product-img-wrap" style="background:#fff;">
+                    <span class="product-badge-thrift">1-of-1 Grail</span>
+                    <img src="images/shoe_2.png" alt="Nike Dunk Low Phantom White Thrifted" />
+                    <div class="product-overlay">
+                        <button class="btn-addcart" data-id="2" data-name="Nike Dunk Low 'Phantom White'"
+                            data-price="12499">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="product-info">
+                    <div class="product-top">
+                        <h3 class="product-name">Nike Dunk Low "Phantom White"</h3>
+                        <span class="product-tag">Authentic Brand</span>
+                    </div>
+                    <div class="product-spec-row">
+                        <span class="spec-pill size-pill">US 10 (EU 44)</span>
+                        <span class="spec-pill condition-pill">9.8/10 Like New</span>
+                    </div>
+                    <div class="product-bottom">
+                        <div class="price-wrap">
+                            <span class="product-price">PKR 12,499</span>
+                            <span class="product-orig-price">Retail PKR 42,000+</span>
+                        </div>
+                        <span class="stock-status">● Only 1 In Stock</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-card scroll-reveal delay-2" data-id="3" data-name="New Balance 2002R Archive Runner"
+                data-price="11999">
+                <div class="product-img-wrap">
+                    <span class="product-badge-thrift">1-of-1 Grail</span>
+                    <img src="images/shoe_3.png" alt="New Balance 2002R Archive Runner Thrifted" />
+                    <div class="product-overlay">
+                        <button class="btn-addcart" data-id="3" data-name="New Balance 2002R Archive Runner"
+                            data-price="11999">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="product-info">
+                    <div class="product-top">
+                        <h3 class="product-name">New Balance 2002R Archive</h3>
+                        <span class="product-tag">Authentic Brand</span>
+                    </div>
+                    <div class="product-spec-row">
+                        <span class="spec-pill size-pill">US 9 (EU 42.5)</span>
+                        <span class="spec-pill condition-pill">9.0/10 Pristine</span>
+                    </div>
+                    <div class="product-bottom">
+                        <div class="price-wrap">
+                            <span class="product-price">PKR 11,999</span>
+                            <span class="product-orig-price">Retail PKR 38,000+</span>
+                        </div>
+                        <span class="stock-status">● Only 1 In Stock</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- UPCOMING APPAREL TEASER -->
+    <section class="apparel-teaser-section" id="apparel">
+        <div class="apparel-teaser-card scroll-reveal">
+            <div class="teaser-content">
+                <div class="teaser-tag">— Chapter 02: What's Next</div>
+                <h2 class="teaser-title">Curated Thrift Apparel<br /><span>Dropping Soon in the Vault.</span></h2>
+                <p class="teaser-sub">We started with original brand sneakers. Next up: hand-picked 90s vintage tees,
+                    heavyweight streetwear hoodies, and archive utility jackets from iconic global brands. All verified
+                    1-of-1 thrifted originals — with our own manufactured label on the horizon.</p>
+                <div class="teaser-perks">
+                    <div class="perk-pill"><span>👕</span> Vintage Graphic Tees</div>
+                    <div class="perk-pill"><span>🧥</span> Archive Streetwear Hoodies</div>
+                    <div class="perk-pill"><span>🔥</span> Retro Track & Utility Jackets</div>
+                    <div class="perk-pill"><span>🏷️</span> Future In-House Cut & Sew</div>
+                </div>
+                <div class="teaser-action">
+                    <a href="#newsletter-email" class="btn-primary" id="teaser-notify-btn">Get Early Drop Access</a>
+                    <span class="teaser-note">⚡ VIP early access 15 minutes before public drop</span>
+                </div>
+            </div>
+            <div class="teaser-badge-visual">
+                <div class="archive-stamp">
+                    <span class="stamp-top">VAULT ARCHIVE</span>
+                    <span class="stamp-main">APPAREL</span>
+                    <span class="stamp-bottom">COMING SOON</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FEATURE SECTION -->
+    <section class="features-section" id="why-us">
+        <div class="features-grid">
+            <div class="feature-item scroll-reveal">
+                <div class="feature-icon">🛡️</div>
+                <h4>100% Original Brands</h4>
+                <p>Zero replicas or knockoffs. Every pair is authenticated through multi-point tag, stitching, and
+                    serial verification.</p>
+            </div>
+            <div class="feature-item scroll-reveal delay-1">
+                <div class="feature-icon">✨</div>
+                <h4>Deep Cleaned &amp; Sanitized</h4>
+                <p>Every thrifted shoe goes through a 4-step hygiene wash, UV disinfection, and leather restoration
+                    before dispatch.</p>
+            </div>
+            <div class="feature-item scroll-reveal delay-2">
+                <div class="feature-icon">⚡</div>
+                <h4>1-of-1 Archive Finds</h4>
+                <p>True thrift rarity. When a grail drops in your size, there's only one pair in stock. Grab it before
+                    it’s gone forever.</p>
+            </div>
+            <div class="feature-item scroll-reveal delay-3">
+                <div class="feature-icon">📦</div>
+                <h4>Nationwide Delivery (COD)</h4>
+                <p>Fast and safe Cash on Delivery across Pakistan. Carefully packed in protective Vault archive
+                    packaging.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ABOUT SECTION -->
+    <section class="about-section" id="about">
+        <div class="about-left scroll-reveal">
+            <div class="about-img-wrap">
+                <img src="images/hero_shoe.jpg" alt="About Vault Curated Thrift" />
+                <div class="about-badge scroll-reveal delay-1">Curated in PK 🇵🇰</div>
+            </div>
+        </div>
+        <div class="about-right scroll-reveal delay-1">
+            <div class="section-label">Our Story</div>
+            <h2>Curated Thrift Today.<br /><em>Our Own Label Tomorrow.</em><br />Real Brands. Real Heat.</h2>
+            <p><strong>VAULT</strong> was born from a real obsession with street culture right here in Pakistan. We love
+                iconic sneakers from legendary global brands, but we hated two things: insane retail hype markups, and
+                fake knockoffs flooding the market.</p>
+            <p>Our solution? Curate authentic, original thrifted kicks. We hunt through global thrift bins, vintage
+                archives, and collector lots to bring you 100% genuine grails at honest prices — cleaned, restored, and
+                graded with absolute transparency.</p>
+            <p>This is just Chapter 1. Coming soon, we are expanding into curated vintage streetwear and thrifted
+                apparel (tees, hoodies, archive jackets). And as our community grows, we will channel this archive DNA
+                into our own manufactured label. Real heat, always.</p>
+            <div class="about-socials">
+                <a href="https://www.instagram.com/vault92_?exln=aHdwZXp4M21xdnBr" target="_blank"
+                    rel="noopener noreferrer" class="social-link" id="ig-link">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                        <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                        <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                    </svg>
+                    <span>Instagram (@vault92_)</span>
+                </a>
+                <a href="https://www.tiktok.com/@vault92_?_r=1&_t=ZS-9AwJBgUYPn3" target="_blank"
+                    rel="noopener noreferrer" class="social-link" id="tt-link">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor">
+                        <path
+                            d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64c.29 0 .58.04.85.12V9.4a6.33 6.33 0 0 0-1-.08A6.34 6.34 0 0 0 3 15.66a6.34 6.34 0 0 0 10.82 4.47 6.27 6.27 0 0 0 1.86-4.46V8.71a8.21 8.21 0 0 0 4.91 1.63v-3.65z" />
+                    </svg>
+                    <span>TikTok (@vault92_)</span>
+                </a>
+                <a href="https://www.facebook.com/share/1DsvDWXAj4/?mibextid=wwXIfr" target="_blank"
+                    rel="noopener noreferrer" class="social-link" id="fb-link">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor">
+                        <path
+                            d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+                    </svg>
+                    <span>Facebook Page</span>
+                </a>
+                <a href="https://wa.me/923700120493?text=Assalam-o-Alaikum%20VAULT!" class="social-link" id="wa-link"
+                    target="_blank" rel="noopener noreferrer">
+                    <img src="images/whatsapp.svg" width="17" height="17" alt="WhatsApp" />
+                    <span>WhatsApp Order</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-top">
+            <div class="footer-brand">
+                <a href="#home" class="footer-logo" aria-label="vault">
+                    <img src="images/vault_logo_white.png" alt="vault" class="footer-logo-img" />
+                </a>
+                <p>Curated thrift &amp; archive culture.<br />100% authentic original brands.<br />Pakistan's streetwear
+                    destination.</p>
+                <div class="footer-social-row">
+                    <a href="https://www.instagram.com/vault92_?exln=aHdwZXp4M21xdnBr" target="_blank"
+                        rel="noopener noreferrer" class="footer-social-btn footer-social-ig"
+                        aria-label="Instagram @vault92_">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                        </svg>
+                        <span>@vault92_</span>
+                    </a>
+                    <a href="https://www.tiktok.com/@vault92_?_r=1&_t=ZS-9AwJBgUYPn3" target="_blank"
+                        rel="noopener noreferrer" class="footer-social-btn footer-social-tt"
+                        aria-label="TikTok @vault92_">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                            <path
+                                d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64c.29 0 .58.04.85.12V9.4a6.33 6.33 0 0 0-1-.08A6.34 6.34 0 0 0 3 15.66a6.34 6.34 0 0 0 10.82 4.47 6.27 6.27 0 0 0 1.86-4.46V8.71a8.21 8.21 0 0 0 4.91 1.63v-3.65z" />
+                        </svg>
+                        <span>TikTok</span>
+                    </a>
+                    <a href="https://www.facebook.com/share/1DsvDWXAj4/?mibextid=wwXIfr" target="_blank"
+                        rel="noopener noreferrer" class="footer-social-btn footer-social-fb" aria-label="Facebook Page">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                            <path
+                                d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+                        </svg>
+                        <span>Facebook</span>
+                    </a>
+                    <a href="https://wa.me/923700120493" target="_blank" rel="noopener noreferrer"
+                        class="footer-social-btn footer-social-wa" aria-label="WhatsApp">
+                        <img src="images/whatsapp.svg" width="15" height="15" alt="WhatsApp" />
+                        <span>Chat</span>
+                    </a>
+                </div>
+            </div>
+            <div class="footer-links">
+                <h5>Archive</h5>
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#collection">Curation</a></li>
+                    <li><a href="#products">Shop Kicks</a></li>
+                    <li><a href="#apparel">Upcoming Apparel</a></li>
+                    <li><a href="#about">Our Story</a></li>
+                    <li><a href="admin.html" style="color:rgba(240, 239, 235, 0.85); font-weight:700;">Admin Portal
+                            🔒</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h5>Thrift Guide</h5>
+                <ul>
+                    <li><a href="#why-us">Authenticity Promise</a></li>
+                    <li><a href="#why-us">Condition Scale (10/10)</a></li>
+                    <li><a href="#why-us">Cleaning &amp; Hygiene</a></li>
+                    <li><a href="#why-us">1-of-1 Sizing Policy</a></li>
+                </ul>
+            </div>
+            <div class="footer-newsletter">
+                <h5>Join Drop Radar</h5>
+                <p>Get notified 15 mins before thrift &amp; apparel drops go live.</p>
+                <div class="newsletter-form">
+                    <input type="email" id="newsletter-email" placeholder="your@email.com" />
+                    <button id="newsletter-btn">→</button>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span>© 2025 VAULT. 100% Authentic Curated Thrift. All rights reserved.</span>
+            <span>Curated with passion in Pakistan 🇵🇰</span>
+        </div>
+    </footer>
+
+    <!-- Floating WhatsApp Widget -->
+    <a href="https://wa.me/923700120493?text=Assalam-o-Alaikum%20VAULT!%20I%20want%20to%20inquire%20about%20a%20thrifted%20sneaker%20drop."
+        class="whatsapp-float" target="_blank" aria-label="Chat on WhatsApp">
+        <svg width="34" height="34" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" clip-rule="evenodd"
+                d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2zm.01 1.67c4.56 0 8.25 3.69 8.25 8.24 0 4.56-3.69 8.25-8.25 8.25-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.19 8.19 0 0 1-1.26-4.39c0-4.55 3.69-8.24 8.25-8.24zm4.52 11.75c-.25-.12-1.47-.72-1.7-.8-.23-.08-.39-.12-.56.12-.17.25-.66.8-.81.97-.15.17-.3.19-.55.07-.25-.12-1.05-.39-2-1.23-.74-.66-1.23-1.47-1.38-1.72-.15-.25-.02-.38.11-.5.11-.11.25-.3.37-.45.12-.15.17-.25.25-.42.08-.17.04-.32-.02-.45-.07-.12-.56-1.36-.77-1.86-.2-.49-.41-.42-.56-.43h-.48c-.17 0-.44.06-.67.31-.23.25-.88.86-.88 2.1 0 1.24.9 2.45 1.03 2.62.13.17 1.78 2.72 4.31 3.81.6.26 1.07.42 1.44.54.6.19 1.15.16 1.58.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.15-1.18-.06-.11-.23-.17-.48-.3z"
+                fill="#ffffff" />
+        </svg>
+    </a>
+
+    <!-- Toast -->
+    <div class="toast" id="toast"></div>
+
+    <script src="products.js?v=3.1"></script>
+    <script src="script.js?v=3.1"></script>
+</body>
+
+</html>
